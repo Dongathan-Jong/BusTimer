@@ -16,10 +16,10 @@ String busComingString = "";
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
 // Wi-Fi credentials
 const char* ssid = "Hack Club";
-const char* password = "bettertobeapiratethanjointhenavy";
+const char* password = "";
 
 // Transit API key
-const char* apiKey = "b0fc8c100ed3282269765dc79d49195b0aeadd613b82120c17f074d2a71aedec";
+const char* apiKey = "";
 
 // NTP server
 const char* ntpServer = "pool.ntp.org";
