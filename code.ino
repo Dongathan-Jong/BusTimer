@@ -11,14 +11,15 @@
 #define TFT_DC 33
 
 int busComing = 0;
+String busComingString = "";
 
 Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
 // Wi-Fi credentials
-const char* ssid = "";
-const char* password = "";
+const char* ssid = "Hack Club";
+const char* password = "bettertobeapiratethanjointhenavy";
 
 // Transit API key
-const char* apiKey = "";
+const char* apiKey = "b0fc8c100ed3282269765dc79d49195b0aeadd613b82120c17f074d2a71aedec";
 
 // NTP server
 const char* ntpServer = "pool.ntp.org";
@@ -53,7 +54,18 @@ void setup() {
   tft.setRotation(1);
   tft.fillScreen(ST77XX_BLACK);
   Serial.println("tft set");
+
+  tft.setTextSize(2);
+  tft.setTextColor(ST7735_BLUE);
+  tft.setCursor(15,20);
+  tft.write("6 Shelburne");
+  tft.setTextSize(1);
+  tft.setTextColor(ST77XX_BLUE);
+  tft.setCursor(15,37);
+  tft.write("To Downtown Burlington");
+
   
+  tft.setTextColor(ST77XX_WHITE);
 }
 
 void loop() {
@@ -123,6 +135,7 @@ void loop() {
 
           Serial.print("Next bus time (local/EST): ");
           Serial.println(timeString);
+          busComingString = timeString;
         } else {
           Serial.println("Next bus time already passed.");
         }
@@ -135,11 +148,45 @@ void loop() {
     }
 
     http.end();
+    tft.fillRect(0,60,180,80,ST77XX_BLACK);
+    tft.setTextSize(1);
+    tft.setCursor(40,50);
+    tft.write("Next Bus Info:");
     tft.setTextSize(2);
-    tft.setCursor(0,0);
-    tft.write("Next bus: ");
-    tft.write(busComing.c_str());
-    Serial.println(busComing);
+    if(busComing > 10)
+    {asldkjasd
+      tft.setCursor(38,80);
+      tft.print(busComing);
+      tft.write(" mins");
+    }
+    else if(busComing <= 10)
+    {
+      tft.setCursor(47,80);
+      tft.print(busComing); 
+      if(busComing <= 1)
+      {
+        tft.write(" min");
+      }
+      else
+      {
+        tft.write(" mins");
+      }
+      
+    }
+
+    if(busComingString.length() == 7)
+    {
+      tft.setCursor(38,100);
+      tft.write(busComingString.c_str());
+    }
+    else
+    {
+      tft.setCursor(33,100);
+      tft.print(busComingString);
+    }
+    Serial.println(busComingString.length());
+    
+    
 
     delay(15000); // MASTER DELAY
   }
