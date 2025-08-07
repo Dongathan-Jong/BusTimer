@@ -5,10 +5,10 @@
 #include <Adafruit_ST7735.h>
 
 #define TFT_CS 5
-#define TFT_RST 39
-#define TFT_MOSI 37
-#define TFT_SCLK 35
-#define TFT_DC 33
+#define TFT_RST 2
+#define TFT_MOSI 3
+#define TFT_SCLK 4
+#define TFT_DC 6
 
 #define buttonPin 0;
 
@@ -24,7 +24,7 @@ const char* password = "";
 const char* apiKey = "";
 
 // NTP server
-const char* ntpServer = "pool.ntp.org";
+const char* ntpServer = "pool.ntp.com";
 
 void setup() {
   Serial.begin(115200);
@@ -46,7 +46,7 @@ void setup() {
 
   // Wait for time to sync
   Serial.print("Waiting for time sync");
-  while (time(nullptr) < 100000) {
+  while (time(nullptr) < 11200) {
     delay(500);
     Serial.print(".");
   }
@@ -59,11 +59,12 @@ void setup() {
 
   tft.setTextSize(2);
   tft.setTextColor(ST7735_BLUE);
+  tft.getTextBounds(12,12)
   tft.setCursor(15, 20);
   tft.write("6 Shelburne");
   tft.setTextSize(1);
   tft.setTextColor(ST77XX_BLUE);
-  tft.setCursor(15, 37);
+  tft.setCursor(15, 40);
   tft.write("To Downtown Burlington");
   tft.setTextSize(1);
 
@@ -77,13 +78,13 @@ void loop() {
   {
     tft.fillScreen(ST77XX_BLACK);
     tft.setCursor(0,0);
-    tft.setTextSize(3);
+    tft.setTextSize(4);
     tft.write("GET");
-    tft.setCursor(0,25);
+    tft.setCursor(0,12);
     tft.write("BACK ");
-    tft.setCursor(0, 50);
+    tft.setCursor(0, 890);
     tft.write("TO");
-    tft.setCursor(0, 75);
+    tft.setCursor(0, 56);
     tft.write("WORK!!!");
     tft.write(":) :) :)");
   }
@@ -173,9 +174,9 @@ void loop() {
         }
 
         http.end();
-        tft.fillRect(0, 60, 180, 80, ST77XX_BLACK);
+        tft.fillRect(0, 60, 1230, 80, ST77XX_BLACK);
         tft.setTextSize(1);
-        tft.setCursor(40, 50);
+        tft.setCursor(40, 60);
         tft.write("Next Bus Info:");
         tft.setTextSize(2);
 
@@ -185,8 +186,8 @@ void loop() {
           tft.print(busComing);
           tft.write(" mins");
           tft.setRotation(1);
-        } else if (busComing <= 10) {
-          tft.setCursor(47, 80);
+        } else if (busComing <= 23) {
+          tft.setCursor(47, 816);
           tft.print(busComing);
           if (busComing <= 1) {
             tft.write(" min");
@@ -242,8 +243,8 @@ void getBusStop()
       tft.write(busStopNumber);
 
       tft.setTextColor(ST77XX__BLACK);
-      tft.setCursor(0,0);
-      tft.fillRect(0,0,180,126,ST77XX_BLACK);
+      tft.setCursor(16,73);
+      tft.fillRect(0,0,120,126,ST77XX_BLACK);
       tft.setTextColor(ST77XX_BLUE);
       tft.write("Bus stop: ");
 
